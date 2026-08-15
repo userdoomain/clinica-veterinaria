@@ -15,6 +15,56 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
+
+<style id="ev-anim">
+  /* ===== Evans Animation Boost ===== */
+  .ev-reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity .7s cubic-bezier(.22,.61,.36,1), transform .7s cubic-bezier(.22,.61,.36,1);
+  }
+  .ev-reveal.ev-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  @keyframes ev-hero-fade {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  header, .hero, [class*="hero"], [class*="banner"], section:first-of-type {
+    animation: ev-hero-fade .9s cubic-bezier(.22,.61,.36,1) both;
+  }
+  img {
+    transition: transform .45s cubic-bezier(.22,.61,.36,1), box-shadow .45s ease;
+  }
+  [class*="card"]:hover img, .gallery img:hover, figure img:hover, img:hover {
+    transform: scale(1.03);
+  }
+  [class*="card"], .gallery figure, figure {
+    transition: transform .35s cubic-bezier(.22,.61,.36,1), box-shadow .35s ease, border-color .35s ease;
+  }
+  [class*="card"]:hover, .gallery figure:hover, figure:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 40px rgba(0,0,0,.15);
+  }
+  a[href*="wa.me"], a[href*="whatsapp"], .btn, button, [role="button"] {
+    transition: transform .3s cubic-bezier(.22,.61,.36,1), box-shadow .3s ease, background .3s ease;
+  }
+  a[href*="wa.me"]:hover, a[href*="whatsapp"]:hover, .btn:hover, button:hover {
+    transform: translateY(-2px);
+  }
+  section h1, section h2, section h3, section p, section li, section div, section span, section img, section ul {
+    opacity: 0;
+    animation: ev-hero-fade .8s cubic-bezier(.22,.61,.36,1) forwards;
+  }
+  section .ev-reveal, section .ev-reveal * { animation: none; opacity: 1; }
+  @media (prefers-reduced-motion: reduce) {
+    .ev-reveal { opacity: 1; transform: none; transition: none; }
+    * { animation: none !important; transition: none !important; }
+  }
+</style>
+
+
 </head>
 <body>
 
@@ -527,5 +577,30 @@
   </button>
 
   <script src="js/main.js"></script>
+
+<script id="ev-anim-js">
+(function () {
+  var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReduced) return;
+  // Reveal on scroll for sections/headings (only when they exist already)
+  var targets = document.querySelectorAll('section > div, section > h2, section > h3, article, .gallery figure, .grid > *');
+  var uniq = [];
+  targets.forEach(function (el) { if (uniq.indexOf(el) === -1) uniq.push(el); });
+  uniq.forEach(function (el) {
+    if (el.classList.contains('ev-reveal')) return;
+    el.classList.add('ev-reveal');
+  });
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('ev-visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+  uniq.forEach(function (el) { io.observe(el); });
+})();
+</script>
+
 </body>
 </html>
