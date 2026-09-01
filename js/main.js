@@ -42,7 +42,7 @@
       nav.classList.toggle("open", open);
       toggle.classList.toggle("open", open);
       toggle.setAttribute("aria-expanded", String(open));
-      toggle.setAttribute("aria-label", open ? "Fechar menu" : "Abrir menu");
+      toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
       document.body.style.overflow = open ? "hidden" : "";
     };
 
@@ -149,11 +149,11 @@
     if (!form) return;
 
     const fields = {
-      nome: { input: $("#nome"), validate: (v) => v.trim().length >= 3 || "Informe seu nome completo." },
-      email: { input: $("#email"), validate: (v) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()) || "Informe um e-mail válido." },
-      telefone: { input: $("#telefone"), validate: (v) => v.replace(/\D/g, "").length >= 10 || "Informe um telefone válido." },
-      assunto: { input: $("#assunto"), validate: (v) => v !== "" || "Selecione um assunto." },
-      mensagem: { input: $("#mensagem"), validate: (v) => v.trim().length >= 10 || "Conte um pouco mais (mín. 10 caracteres)." }
+      nome: { input: $("#nome"), validate: (v) => v.trim().length >= 3 || "Please enter your full name." },
+      email: { input: $("#email"), validate: (v) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()) || "Please enter a valid email address." },
+      telefone: { input: $("#telefone"), validate: (v) => v.replace(/\D/g, "").length >= 10 || "Please enter a valid phone number." },
+      assunto: { input: $("#assunto"), validate: (v) => v !== "" || "Please select a subject." },
+      mensagem: { input: $("#mensagem"), validate: (v) => v.trim().length >= 10 || "Please tell us a bit more (min. 10 characters)." }
     };
 
     const lgpd = $("#lgpd");
@@ -205,7 +205,7 @@
 
       if (!lgpd.checked) {
         lgpd.classList.add("invalid");
-        lgpdError.textContent = "Você precisa aceitar os termos para enviar.";
+        lgpdError.textContent = "You need to accept the terms to send your message.";
         if (!firstInvalid) firstInvalid = lgpd;
       } else {
         lgpd.classList.remove("invalid");
@@ -214,12 +214,12 @@
 
       if (firstInvalid) {
         firstInvalid.focus();
-        status.textContent = "Ops! Revise os campos destacados e tente novamente.";
+        status.textContent = "Oops! Please review the highlighted fields and try again.";
         status.className = "form-status error";
         return;
       }
 
-      status.textContent = "Mensagem enviada com sucesso! Retornaremos em até 1 hora útil. Obrigado!";
+      status.textContent = "Message sent successfully! We'll get back to you within 1 business hour. Thank you!";
       status.className = "form-status success";
       form.reset();
     });
